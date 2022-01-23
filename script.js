@@ -4,6 +4,7 @@ let horizontalMovement = 0
 let checkBoxesContainer = document.getElementById("check-boxes-container")
 let counterDisplay = document.getElementById("counter")
 let clockDisplay = document.getElementById("clock")
+let resetButton = document.getElementById("reset-btn")
 let timeCounter = 0;
 let timeInterval = undefined;
 let isTimeRunning = false;
@@ -53,6 +54,8 @@ function resetGame(){
     for (let i = 0; i < lastCheckbox; i++) {
         stepBack()     
     }
+    isTimeRunning = false;
+    timeCounter = 0;
 }
 
 function stepBack(){
@@ -95,6 +98,11 @@ document.addEventListener("click", function(e){
         stepBack()
     }
 })
+
+resetButton.addEventListener("click", function(){
+    resetGame()
+})
+
 
 
 
