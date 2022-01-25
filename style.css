@@ -1,6 +1,15 @@
 *{
     font-size: 24px;
     font-family: 'Roboto', sans-serif;
+    padding: 0;
+    box-sizing: content-box;
+}
+
+body{
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
 }
 
 .main-container{
@@ -57,4 +66,23 @@ button{
 button:hover{
     background-color: rgb(10, 87, 138);
     transition: all 1s ease;
+}
+
+.overlay{
+    width: 100vh;
+    height: 100%;
+    background-color: rgba(87, 87, 87, 0.418);
+    position: fixed;
+    top: 0;
+    left: 0;
+    backdrop-filter: blur(2px);
+    z-index: 2;
+}
+
+.popup{
+    height: 30vh;
+    width: 50%;
+    background-color: cornflowerblue;
+    z-index: 3;
+    position: fixed;
 }
