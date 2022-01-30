@@ -53,6 +53,11 @@ body{
     align-content: center;
 }
 
+.dashboard div:first-child{
+    flex-direction: column;
+    align-items: center;
+}
+
 button{
     background-color: rgb(43, 134, 194);
     border: 0;
@@ -69,20 +74,20 @@ button:hover{
 }
 
 .overlay{
-    width: 100vh;
-    height: 100%;
+    color: white;
+    width: 100%;
+    height: 100vh;
     background-color: rgba(87, 87, 87, 0.418);
     position: fixed;
     top: 0;
     left: 0;
     backdrop-filter: blur(2px);
     z-index: 2;
+    display: none;
+    justify-content: center;
+    align-items: center;
 }
 
-.popup{
-    height: 30vh;
-    width: 50%;
-    background-color: cornflowerblue;
-    z-index: 3;
-    position: fixed;
+.overlay p{
+    font-size: 40px;
 }

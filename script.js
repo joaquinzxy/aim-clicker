@@ -1,10 +1,14 @@
 let arrayCheckboxes = []
 let checkCounter = 0;
+let bestTime = 0;
 let horizontalMovement = 0
 let checkBoxesContainer = document.getElementById("check-boxes-container")
 let counterDisplay = document.getElementById("counter")
 let clockDisplay = document.getElementById("clock")
+let bestTimeDisplay = document.getElementById("best-time")
 let resetButton = document.getElementById("reset-btn")
+let pageOverlay = document.getElementsByClassName("overlay")[0]
+let dashboard = document.getElementsByClassName("dashboard")[0]
 let timeCounter = 0;
 let timeInterval = undefined;
 let isTimeRunning = false;
@@ -17,19 +21,22 @@ function getRandom(limit){
 }
 
 function setCheckboxes(){
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 50; i++) {
         let newCheckbox = document.createElement("input")
         newCheckbox.type = "checkbox"
         newCheckbox.className = "checkbox"
         newCheckbox.style.position= "relative" 
         newCheckbox.disabled = "true"
+        newCheckbox.tabIndex="-1"
         newCheckbox.addEventListener("click", function(){
             checkCounter++
             horizontalMovement += 20
-            counterDisplay.innerText=checkCounter+"/100"
+            counterDisplay.innerText=checkCounter+"/"+arrayCheckboxes.length
             this.disabled = "true"
-            arrayCheckboxes[checkCounter].disabled = ""
-            arrayCheckboxes[checkCounter].style.top= getRandom(checkCounter)+"px"
+            if (checkCounter<arrayCheckboxes.length) {
+                arrayCheckboxes[checkCounter].disabled = ""
+                arrayCheckboxes[checkCounter].style.top= getRandom(checkCounter)+"px"
+            }
             checkBoxesContainer.style.right = horizontalMovement+"px"
          })
         checkBoxesContainer.appendChild(newCheckbox)      
@@ -42,30 +49,44 @@ function setCheckboxes(){
         }
     })
     
-    arrayCheckboxes[99].addEventListener("click", function(e){
+    arrayCheckboxes[arrayCheckboxes.length-1].addEventListener("click", function(e){
+            pageOverlay.style.display = "flex"
+            dashboard.style.zIndex = 4
+            dashboard.style.color = "white"
             isTimeRunning = false;
+            if (timeCounter<bestTime || bestTime == 0) {
+                bestTime = timeCounter
+                bestTimeDisplay.innerHTML = clockDisplay.innerText
+            }
+
+            checkCounter = arrayCheckboxes.length-1
     })
 
     arrayCheckboxes[checkCounter].disabled = ""
 }
 
 function resetGame(){
-    let lastCheckbox = checkCounter
-    for (let i = 0; i < lastCheckbox; i++) {
+    for (let i = 0; i < arrayCheckboxes.length; i++) {
         stepBack()     
     }
+    pageOverlay.style.display = "none"
+    dashboard.style.zIndex = 2
+    dashboard.style.color = "black"
     isTimeRunning = false;
     timeCounter = 0;
 }
 
 function stepBack(){
     if(checkCounter>0){
+        arrayCheckboxes[checkCounter].disabled = "true"
+        arrayCheckboxes[checkCounter].checked = false
         checkCounter--
-        counterDisplay.innerText=checkCounter+"/100"
+        arrayCheckboxes[checkCounter].disabled = "true"
+        arrayCheckboxes[checkCounter].checked = false
+        counterDisplay.innerText=checkCounter+"/"+arrayCheckboxes.length
 
         arrayCheckboxes[checkCounter].disabled = ""
         arrayCheckboxes[checkCounter].checked = false
-        arrayCheckboxes[checkCounter+1].disabled = "true"
         horizontalMovement -= 20
         checkBoxesContainer.style.right = horizontalMovement+"px"
     }   
@@ -93,7 +114,7 @@ function updateTimer(){
     }
 }
 
-document.addEventListener("click", function(e){
+checkBoxesContainer.addEventListener("click", function(e){
     if(!e.target.classList.contains('checkbox')){
         stepBack()
     }
