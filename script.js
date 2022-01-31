@@ -78,6 +78,7 @@ function resetGame(){
 
 function stepBack(){
     if(checkCounter>0){
+        arrayCheckboxes[checkCounter].style.top = "0"
         arrayCheckboxes[checkCounter].disabled = "true"
         arrayCheckboxes[checkCounter].checked = false
         checkCounter--
@@ -124,11 +125,6 @@ resetButton.addEventListener("click", function(){
     resetGame()
 })
 
-
-
-
-
-
-
-
 setCheckboxes()
+
+
